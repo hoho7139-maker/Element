@@ -39,7 +39,7 @@ let data=JSON.parse(localStorage.getItem("familyLearning")||"null")||{kids:defau
 function save(){localStorage.setItem("familyLearning",JSON.stringify(data));stats();wrongList()}
 function esc(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
 function kid(){return data.kids.find(k=>k.id===$("kid").value)||data.kids[0]}
-function subjects(g){if(g==="幼兒預備")return["語文","數學"];if(g==="小一預備")return["國語","數學"];if(g==="1"||g==="2")return["國語","數學","生活","健康與體育","藝術","綜合活動"];return["國語","數學","英語","自然","社會","健康與體育","藝術","綜合活動"]}
+function subjects(g){if(g==="幼兒預備")return["語文","數學"];if(g==="小一預備")return["國語","數學"];if(g==="1"||g==="2")return["國語","數學","生活","健康與體育","藝術"];return["國語","數學","英語","自然","社會","健康與體育"]}
 function fillSubjects(){let s=subjects($("grade").value);$("subject").innerHTML=s.map(x=>'<option>'+x+'</option>').join("");loadQ()}
 function listQ(){return bank.filter(q=>q.g===$("grade").value&&q.s===$("subject").value)}
 function loadQ(next=false){let arr=listQ();if(!arr.length)questionIndex=0;else if(next)questionIndex=(questionIndex+1)%arr.length;else questionIndex=0;current=arr[questionIndex]||null;answered=false;$("feedback").className="feedback hidden";$("next").classList.add("hidden");$("check").classList.remove("hidden");$("meta").textContent=current?current.g+" · "+current.s:"題庫建置中";$("count").textContent=arr.length?"第 "+(questionIndex+1)+" / "+arr.length+" 題 · "+current.level:"";$("question").textContent=current?current.q:"這個科目的樣題正在編製中。";$("choices").innerHTML=current?current.o.map((v,i)=>'<label class="choice"><input type="radio" name="ans" value="'+i+'"><span>'+esc(v)+'</span></label>').join(""):""}
